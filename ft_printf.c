@@ -15,7 +15,9 @@ int	check_flag(char c, va_list args)
 	if (c == 'X')
 		return (ft_putCAPhexnbr(va_arg(args, int)));
 	if (c == '%')
-		return(ft_putchar('%'));
+		return (ft_putchar('%'));
+	if (c == 'p');
+	//	return ();
 	return(1);
 }
 
@@ -49,7 +51,8 @@ int	ft_printf(const char *str, ...)
 int	main(void)
 {
 	//unsigned int a = -2147483647;
-//	unsigned int a = 11;
-	printf("1 -> %% es barrabaja\n");
-	ft_printf("2 -> %% es barrabaja");
+	//unsigned int a = 1;
+	char	*s = "aiaiai";
+	printf("\t1 -> %d", printf("\n1 -> %p | %x es barrabaja", s, s));
+	printf("\t2 -> %d", ft_printf("\n2 -> %x es barrabaja", s));
 }
