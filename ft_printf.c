@@ -1,9 +1,21 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rocimart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/01 22:44:26 by rocimart          #+#    #+#             */
+/*   Updated: 2023/06/28 05:32:46 by rocimart         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
 
 int	check_flag(char c, va_list args)
 {
 	if (c == 'c')
-		write(1, args, 1);
+		return(ft_putchar(va_arg(args, int)));
 	if (c == 's')
 		return (ft_putstr(va_arg(args, char *)));
 	if (c == 'd' || c == 'i')
@@ -11,13 +23,13 @@ int	check_flag(char c, va_list args)
 	if (c == 'u')
 		return (ft_putunbr(va_arg(args, int)));
 	if (c == 'x')
-		return (ft_puthexnbr(va_arg(args, int)));
+		return (ft_puthexnbr(va_arg(args, unsigned int)));
 	if (c == 'X')
 		return (ft_putCAPhexnbr(va_arg(args, int)));
 	if (c == '%')
 		return (ft_putchar('%'));
-	if (c == 'p');
-	//	return ();
+	if (c == 'p')
+		return (ft_putptr(va_arg(args, void *)));
 	return(1);
 }
 
@@ -48,11 +60,3 @@ int	ft_printf(const char *str, ...)
 	return (len);
 }
 
-int	main(void)
-{
-	//unsigned int a = -2147483647;
-	//unsigned int a = 1;
-	char	*s = "aiaiai";
-	printf("\t1 -> %d", printf("\n1 -> %p | %x es barrabaja", s, s));
-	printf("\t2 -> %d", ft_printf("\n2 -> %x es barrabaja", s));
-}

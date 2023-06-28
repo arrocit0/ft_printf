@@ -1,4 +1,16 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rocimart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/01 22:44:15 by rocimart          #+#    #+#             */
+/*   Updated: 2023/06/28 05:32:47 by rocimart         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
 
 int ft_putchar(char c)
 {
@@ -11,11 +23,14 @@ int	ft_putstr(char *str)
 	int i;
 
 	i = 0;
-	while (*str != '\0')
-	{	
-		write (1, str, 1);
-		str++;
-		i++;
+	if (!str)
+	{
+		write (1, "(null)", 6);
+		return (6);	
+	}
+	while (str[i] != '\0')
+	{
+		i += ft_putchar(str[i]);
 	}
 	return (i);
 }
@@ -32,15 +47,13 @@ int	ft_putnbr(int nb)
 	}	
 	if (nb < 0)
 	{
-		write (1, "-", 1);
+		i = ft_putchar('-');
 		nb *= (-1);
-		i = 1;
 	}
-	if (nb < 10)
+	if (nb <= 9)
 	{
-		i++;
 		nb += '0';
-		write (1, &nb, 1);
+		i += ft_putchar(nb);
 	}
 	else
 	{
@@ -50,16 +63,12 @@ int	ft_putnbr(int nb)
 	return (i);
 }
 
-int	ft_putunbr(int nb)
+int	ft_putunbr(int n)
 {
-	static int i;
+	static int		i;
+	unsigned int	nb;
 
-/*	if (nb < 0)
-	{
-		nb += 4294967296;
-		i = 1;
-	}
-*/
+	nb = (unsigned int)n;
 	if (nb < 10)
 	{
 		i++;
@@ -74,57 +83,54 @@ int	ft_putunbr(int nb)
 	return (i);
 }
 
-int ft_puthexnbr(int nb)
+int ft_puthexnbr(unsigned int nbr)
 {
-	static int i;
-	char	*base;
+	static int 		i;
+	char			*base;
+	unsigned int	nb;
 
+	nb = (unsigned int)nbr;
 	base = "0123456789abcdef";
-	if (nb < 0)
-	{
-		write (1, "-", 1);
-		nb *= (-1);
-		i = 1;
-	}
-
 	if (nb < 16)
-	{
-		i++;
-		nb = base[nb];
-		write (1, &nb, 1);
-	}
+		i += ft_putchar(base[nb]);
 	else
 	{
-		ft_putnbr(nb / 16);
-		ft_putnbr(nb % 16);
+		ft_puthexnbr(nb / 16);
+		ft_puthexnbr(nb % 16);
 	}
 	return (i);
 }
 
-int ft_putCAPhexnbr(int nb)
+int ft_putCAPhexnbr(int nbr)
 {
 	static int i;
 	char	*base;
+	unsigned int	nb;
 
+	nb = (unsigned int)nbr;
 	base = "0123456789ABCDEF";
 	if (nb < 0)
 	{
-		write (1, "-", 1);
+		i = ft_putchar('-');
 		nb *= (-1);
-		i = 1;
 	}
-
 	if (nb < 16)
-	{
-		i++;
-		nb = base[nb];
-		write (1, &nb, 1);
-	}
+		i += ft_putchar(base[nb]);
 	else
 	{
-		ft_putnbr(nb / 16);
-		ft_putnbr(nb % 16);
+		ft_putCAPhexnbr(nb / 16);
+		ft_putCAPhexnbr(nb % 16);
 	}
 	return (i);
 }
 
+int	ft_putptr(void *pt)
+{
+	int len;
+	int ptr;
+
+	ptr = (unsigned long long)pt;
+	len = ft_putstr("0x");
+	len += ft_puthexnbr(ptr);
+	return(len);
+}
